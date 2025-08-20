@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    // 1. entrada
+    // definir variaveis e constantes
+    // atribuicao e leitura
+
+    // 2. processamento
+    // operacoes + - * / ...
+
+    // 3. saida
+    // exibir o resultado
+
+    return 0;
+}
