@@ -14,6 +14,9 @@ int main() {
 
     char tarefas[15][20];
 
+    char totalTarefa[15][30];
+    char tarefa[30];
+
     while (opcao != 4){
 
         printf("---------------------\n");
@@ -31,7 +34,13 @@ int main() {
 
             system("cls");
             printf("Opcao invalida. Digite um numero de 1 a 4!");
-            sleep(3);
+
+            for (int temporizador = 5; temporizador>0; temporizador--) 
+            {
+                printf("\n%i...", temporizador);
+                sleep(1);
+            }
+
             system("cls");
 
             while (getchar() != '\n');
