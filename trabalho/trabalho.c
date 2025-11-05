@@ -1,21 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 int main() {
 
     system("cls");
 
     int opcao;
-    int id;
-    int status = 0;
-    int i = 0;
-    int j = 0;
+    int tarefa = 0;
 
-    char tarefas[15][20];
-
-    char totalTarefa[15][30];
-    char tarefa[30];
+    char tarefas[10][101];
 
     while (opcao != 4){
 
@@ -35,8 +30,7 @@ int main() {
             system("cls");
             printf("Opcao invalida. Digite um numero de 1 a 4!");
 
-            for (int temporizador = 5; temporizador>0; temporizador--) 
-            {
+            for (int temporizador = 5; temporizador>0; temporizador--) {
                 printf("\n%i...", temporizador);
                 sleep(1);
             }
@@ -51,19 +45,45 @@ int main() {
 
         switch (opcao) 
         {
+
             case 1:
                 system("cls");
+                while (getchar() != '\n');
 
-                printf("Adicione uma tarefa: \n");
-                scanf("%s", &tarefas[i][j]);
+                printf("Adicione uma nova tarefa:\n");
+                printf("%i. ", tarefa+1);
+                fgets(tarefas[tarefa], 101, stdin);
 
-                printf("%c", tarefas[0][0]);
+                if (strlen(tarefas[tarefa]) > 0) {
+                    tarefa++;
+                }
+
+                system("cls");
 
             break;
 
             case 2: 
                 system("cls");
-                printf("Estas sao suas tarefas: \n"); 
+
+                printf("Estas sao suas tarefas: \n");
+
+                if(tarefa == 0) {
+                    printf("Sem Tarefas!");
+                } else {
+                    for (int i = 0; i < tarefa; i++) 
+                    {
+                        printf("%i. %s", i+1, tarefas[i]);
+                    }
+                }
+
+                for (int temporizador = 5; temporizador>0; temporizador--) 
+                {
+                    printf("\n%i...", temporizador);
+                    sleep(1);
+                }
+
+                system("cls");
+
             break;
 
             case 3: 
@@ -73,9 +93,7 @@ int main() {
 
             case 4:
                 system("cls");
-                printf("---------------------\n");
-                printf("-----S A I N D O-----\n");
-                printf("---------------------\n");
+                printf("---- S A I N D O ----\n");
                 sleep(1);
                 system("cls");
             break;

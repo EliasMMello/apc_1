@@ -3,17 +3,17 @@
 
 int main() {
 
-    char nomes[10][101];
+    char nomes[5][101];
 
     int i;
 
-    for (int i=0; i<10; i++) 
+    for (int i=0; i<5; i++) 
     {
         printf("Digite o %io nome: ", i+1);
-        scanf("%s", nomes[i]);
+        fgets(nomes[i], 101, stdin);
     }
 
-    printf("Escolha um nome de 1 a 10: ");
+    printf("Escolha um nome de 1 a 5: ");
     scanf("%i", &i);
 
     i--;
