@@ -9,7 +9,10 @@ int main() {
     int opcao;
     int id;
     int status = 0;
-    int i = 1;
+    int i = 0;
+    int j = 0;
+
+    char tarefas[15][20];
 
     while (opcao != 4){
 
@@ -42,7 +45,10 @@ int main() {
             case 1:
                 system("cls");
 
-                printf("Adicione a %ia tarefa: \n", id);
+                printf("Adicione uma tarefa: \n");
+                scanf("%s", &tarefas[i][j]);
+
+                printf("%c", tarefas[0][0]);
 
             break;
 
