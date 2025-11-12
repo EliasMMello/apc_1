@@ -10,7 +10,7 @@ int main() {
     int opcao;
     int tarefa = 0;
 
-    char tarefas[10][101];
+    char tarefas[50][101];
 
     while (opcao != 4) {
 
