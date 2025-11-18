@@ -2,15 +2,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <locale.h>
 
 int main() {
 
+    setlocale(LC_ALL, "");
+
     system("cls");
 
-    int opcao;
-    int tarefa = 0;
+    int opcao = 0;
+    int qtd_tarefas = 0;
 
-    char tarefas[50][101];
+    struct Tarefa {
+        char descricao[101];
+        int status;
+    };
+
+    struct Tarefa tarefas[50];
 
     while (opcao != 4) {
 
@@ -19,61 +27,64 @@ int main() {
         printf("|---------------------------|\n");
         printf("|   1. Adicionar Tarefa     |\n");
         printf("|   2. Listar Tarefas       |\n");
-        printf("|   3. Pesquisar Tarefas    |\n");
+        printf("|   3. Alterar Status       |\n");
         printf("|   4. Sair                 |\n");
         printf("|---------------------------|\n");
 
-        printf("\nSelecione um numero de 1 a 4: ");
+        printf("\nSelecione um número de 1 a 4: ");
         int leu_certo = scanf("%d", &opcao);
 
         if (leu_certo != 1) {
-
             system("cls");
-            printf("Opcao invalida. Digite um numero de 1 a 4!");
+            printf("Opção inválida. Digite um número de 1 a 4!");
 
-            for (int temporizador = 3; temporizador>0; temporizador--) {
+            while (getchar() != '\n');
+
+            for (int temporizador = 3; temporizador > 0; temporizador--) {
                 printf("\n%i...", temporizador);
                 sleep(1);
             }
 
             system("cls");
-
-            while (getchar() != '\n');
-
             continue;
         }
 
         switch (opcao) 
         {
-            case 1:
+            case 1: // ADICIONAR TAREFAS
                 system("cls");
                 while (getchar() != '\n');
 
                 printf("|------------------------------------------|\n");
                 printf("|---- A D I C I O N A R  T A R E F A S ----|\n");
                 printf("|------------------------------------------|\n");
-                printf("|-- Pressione ENTER. para voltar ao MENU --|\n");
+                printf("|-- Pressione ENTER para voltar ao MENU ---|\n");
                 printf("|------------------------------------------|\n\n");
 
-                if (tarefa < 5) {
-                    for (int i = 0; i < tarefa; i++) 
+                if (qtd_tarefas < 5) {
+                    for (int i = 0; i < qtd_tarefas; i++) 
                     {
-                        printf("%i. %s", i+1, tarefas[i]);
+                        printf("%i. %s", i+1, tarefas[i].descricao);
                     }
                 } else {
                     printf("...\n");
-                    for (int i = tarefa - 4; i < tarefa; i++) 
+                    for (int i = qtd_tarefas - 4; i < qtd_tarefas; i++) 
                     {
-                        printf("%i. %s", i+1, tarefas[i]);
+                        printf("%i. %s", i+1, tarefas[i].descricao);
                     }
                 }
 
-                printf("\n%i. ", tarefa+1);
-                fgets(tarefas[tarefa], 101, stdin);
+                printf("\n%i. ", qtd_tarefas + 1);
+                
+                fgets(tarefas[qtd_tarefas].descricao, 101, stdin);
 
-                if ((tarefas[tarefa][0]) != '\n') {
-                    if (strlen(tarefas[tarefa]) > 0) {
-                        tarefa++;
+                if ((tarefas[qtd_tarefas].descricao[0]) != '\n') 
+                {
+                    if (strlen(tarefas[qtd_tarefas].descricao) > 0) 
+                    {
+                        tarefas[qtd_tarefas].status = 0;
+                        qtd_tarefas++;
+                        system("cls");
                     }
                 } else {
                     system("cls");
@@ -83,7 +94,7 @@ int main() {
                 system("cls");
             break;
 
-            case 2: 
+            case 2: // LISTAR TAREFAS
                 system("cls");
                 while (getchar() != '\n');
 
@@ -93,66 +104,113 @@ int main() {
                 printf("|-- Pressione ENTER para voltar ao MENU --|\n");
                 printf("|-----------------------------------------|\n");
 
-                if (tarefa == 1) {
-                    printf("|--------- Voce possui 1 tarefa. ---------|\n");
+                if (qtd_tarefas == 1) {
+                    printf("|--------- Você possui 1 tarefa. ---------|\n");
                 } else {
-                    printf("|--------- Voce possui %i tarefas ---------|\n", tarefa);
+                    printf("|--------- Você possui %i tarefas ---------|\n", qtd_tarefas);
                 }
 
                 printf("|-----------------------------------------|\n\n");
 
-                if(tarefa > 0) {
-                    for (int i = 0; i < tarefa; i++) {
-                        printf("%i. %s", i+1, tarefas[i]);
+                if(qtd_tarefas > 0) {
+                    for (int i = 0; i < qtd_tarefas; i++) 
+                    {
+                        char texto_status[15];
+
+                        if (tarefas[i].status == 0) {
+                            strcpy(texto_status, "PENDENTE");
+                        } else {
+                            strcpy(texto_status, "CONCLUÍDA");
+                        }
+
+                        tarefas[i].descricao[strcspn(tarefas[i].descricao, "\n")] = 0;
+                        
+                        printf("%i. [%s] %s\n", i+1, texto_status, tarefas[i].descricao);
+                        
+                        strcat(tarefas[i].descricao, "\n");
                     }
                 }
 
-                while (opcao != '\n') {
-                    scanf("%c", &opcao);
-                }
-
+                getchar();
                 system("cls");
 
             break;
 
-            case 3:
+            case 3: // ALTERAR STATUS
                 system("cls");
                 while (getchar() != '\n');
 
                 printf("|------------------------------------------|\n");
-                printf("|---- P E S Q U I S A R  T A R E F A S ----|\n");
+                printf("|------- A L T E R A R  S T A T U S -------|\n");
                 printf("|------------------------------------------|\n");
-                printf("|-- Pressione ENTER. para voltar ao MENU --|\n");
+                printf("|-- Pressione ENTER para voltar ao MENU ---|\n");
                 printf("|------------------------------------------|\n");
-
-                if (tarefa == 1) {
-                    printf("|---------- Voce possui 1 tarefa. ----------|\n");
-                    printf("|------------------------------------------|\n");
-                } else {
-                    printf("|--------- Voce possui %i tarefas. ---------|\n", tarefa);                    
-                    printf("|------------------------------------------|\n");
-                }
+                printf("|- Digite o número da tarefa para alterar -|\n");
+                printf("|------------------------------------------|\n\n");
                 
-                while (opcao != '\n') {
-                    scanf("%c", &opcao);
+                if(qtd_tarefas > 0) {
+
+                    for (int i = 0; i < qtd_tarefas; i++) 
+                    {
+                        char texto_status[15];
+
+                        if (tarefas[i].status == 0) {
+                            strcpy(texto_status, "PENDENTE");
+                        }
+                        else {
+                            strcpy(texto_status, "CONCLUÍDA");
+                        }
+                        
+                        tarefas[i].descricao[strcspn(tarefas[i].descricao, "\n")] = 0;
+                        printf("%i. [%s] %s\n", i+1, texto_status, tarefas[i].descricao);
+                        strcat(tarefas[i].descricao, "\n");
+                    }
+
+                    printf("\nNúmero da tarefa: ");
+
+                    char enter[20];
+                    fgets(enter, 20, stdin);
+
+                    if (enter[0] == '\n') {
+                        system("cls");
+                        break; 
+                    }
+
+                    int id_alterar = atoi(enter);
+
+                    if (id_alterar > 0 && id_alterar <= qtd_tarefas) {
+                        if(tarefas[id_alterar-1].status == 0) {
+                            tarefas[id_alterar-1].status = 1;
+                        } else {
+                            tarefas[id_alterar-1].status = 0;
+                        }
+                    } 
+                    else {
+                        printf("\nEntrada incorreta!\n");
+                        sleep(1);
+                    }
+
+                } else {
+                    printf("Nenhuma tarefa cadastrada.\n");
+                    getchar();
                 }
 
                 system("cls");
             break;
 
-            case 4:
+            case 4: // SAIR
                 system("cls");
                 printf("---- S A I N D O ----\n");
                 sleep(1);
                 system("cls");
             break;
 
-            default: 
+            default: // ERRO
                 system("cls");
-                printf("Opcao invalida. Digite um numero de 1 a 4!");
+                printf("Opção inválida. Digite um número de 1 a 4!");
                 sleep(3);
                 system("cls");
-                
+                while (getchar() != '\n'); 
         }
     }
 
