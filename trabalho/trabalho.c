@@ -162,6 +162,7 @@ int main() {
                         }
                         
                         tarefas[i].descricao[strcspn(tarefas[i].descricao, "\n")] = 0;
+                        
                         printf("%i. [%s] %s\n", i+1, texto_status, tarefas[i].descricao);
                         strcat(tarefas[i].descricao, "\n");
                     }
@@ -208,7 +209,11 @@ int main() {
             default: // ERRO
                 system("cls");
                 printf("Opção inválida. Digite um número de 1 a 4!");
-                sleep(3);
+                
+                for (int temporizador = 3; temporizador > 0; temporizador--) {
+                    printf("\n%i...", temporizador);
+                    sleep(1);
+                }
                 system("cls");
                 while (getchar() != '\n'); 
         }
